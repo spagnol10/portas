@@ -1,21 +1,37 @@
-import Presente from "../../components/Presente";
-import Porta from "../../components/Porta";
-import PortaModel from "../../model/PortaModel";
+import styles from "../styles/Formulario.module.css";
+import Cartao from "../../components/Cartao";
+import Link from "next/link";
 import { useState } from "react";
+import EntradaNumerica from "../../components/EntradaNumerica";
 
-export default function Home() {
-  const [p1, setP1] = useState(new PortaModel(1));
-  const [texto, setTexto] = useState("...");
+export default function Formulario() {
+  const [qtdePortas, setQtdePortas] = useState(3)
+  const [comPresente, setComPresente] = useState(1)
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <input
-        type="text"
-        value={texto}
-        onChange={(e) => setTexto(e.target.value)}
-      />
-      {/* <Presente /> */}
-      <Porta value={p1} onChange={(newDoor) => console.log(newDoor)} />   
+    <div className={styles.formulario}>
+      <div>
+        <Cartao bgColor="#c0392c">
+          <h1>Monty Hall</h1>
+        </Cartao>
+        <Cartao>
+          <EntradaNumerica text="Qtde Portas?"
+            value={qtdePortas}
+            onChange={novaQtde => setQtdePortas(novaQtde)} />
+        </Cartao>
+      </div>
+      <div>
+        <Cartao>
+          <EntradaNumerica text="Porta com Presente?"
+            value={comPresente}
+            onChange={novaPortaComPresente => setComPresente(novaPortaComPresente)} />
+        </Cartao>
+        <Cartao bgColor="#28a085">
+          <Link href={`/jogo/${qtdePortas}/${comPresente}`} passHref>
+            <h2 className={styles.link}>Iniciar</h2>
+          </Link>
+        </Cartao>
+      </div>
     </div>
-  );
+  )
 }
